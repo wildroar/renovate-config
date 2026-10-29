@@ -1,0 +1,39 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Wild Roar Bedrock fleet baseline. Sites extend this and add only their hostRules (private composer repo auth).",
+  "extends": ["config:recommended", ":dependencyDashboard"],
+  "timezone": "America/Denver",
+  "enabledManagers": ["composer"],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/test/**",
+    "**/tests/**",
+    "**/__tests__/**",
+    "**/__fixtures__/**",
+    "web/wp/**",
+    "web/app/plugins/**",
+    "web/app/mu-plugins/**"
+  ],
+  "schedule": ["* 0-5 1,15 * *"],
+  "constraints": { "php": "8.3.*" },
+  "labels": ["dependencies"],
+  "automerge": false,
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": { "enabled": true, "schedule": ["at any time"] },
+  "lockFileMaintenance": { "enabled": true, "schedule": ["* 0-5 1 * *"] },
+  "packageRules": [
+    {
+      "description": "One PR per run for every non-major composer update, across all composer projects in the repo",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "composer non-major",
+      "groupSlug": "composer-non-major"
+    },
+    {
+      "description": "Majors (Gravity Forms 3, phpcs 4, query-monitor 4, ...) need a code/CI pass first; approve them from the Dependency Dashboard",
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    }
+  ]
+}
