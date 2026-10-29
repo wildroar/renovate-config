@@ -1,9 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "description": "Wild Roar Bedrock fleet baseline. Sites extend this and add only their hostRules (private composer repo auth).",
-  "extends": ["config:recommended", ":dependencyDashboard"],
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard"
+  ],
   "timezone": "America/Denver",
-  "enabledManagers": ["composer"],
+  "enabledManagers": [
+    "composer"
+  ],
   "ignorePaths": [
     "**/node_modules/**",
     "**/bower_components/**",
@@ -16,24 +21,57 @@
     "web/app/plugins/**",
     "web/app/mu-plugins/**"
   ],
-  "schedule": ["* 0-5 1,15 * *"],
-  "constraints": { "php": "8.3.*" },
-  "labels": ["dependencies"],
+  "schedule": [
+    "* 0-5 1,15 * *"
+  ],
+  "constraints": {
+    "php": "8.3.*"
+  },
+  "labels": [
+    "dependencies"
+  ],
   "automerge": false,
   "osvVulnerabilityAlerts": true,
-  "vulnerabilityAlerts": { "enabled": true, "schedule": ["at any time"] },
-  "lockFileMaintenance": { "enabled": true, "schedule": ["* 0-5 1 * *"] },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": [
+      "at any time"
+    ]
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "* 0-5 1 * *"
+    ]
+  },
   "packageRules": [
     {
       "description": "One PR per run for every non-major composer update, across all composer projects in the repo",
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
       "groupName": "composer non-major",
       "groupSlug": "composer-non-major"
     },
     {
       "description": "Majors (Gravity Forms 3, phpcs 4, query-monitor 4, ...) need a code/CI pass first; approve them from the Dependency Dashboard",
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "dependencyDashboardApproval": true
+    },
+    {
+      "description": "WPCS 3 (and PHPCompatibility) require phpcs 3; phpcs 4 can never resolve until WPCS supports it",
+      "matchPackageNames": [
+        "squizlabs/php_codesniffer"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false
     }
   ]
 }
